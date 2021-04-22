@@ -154,6 +154,7 @@ def user_stats(city, df):
     user_types = df['User Type'].value_counts()
     print(f'Counts of user types: {user_types}')
 
+    #To solve the problem of gender, birth year concerning washington data
     if city != 'washington':
         # Display counts of gender
         gender = df['Gender'].value_counts()

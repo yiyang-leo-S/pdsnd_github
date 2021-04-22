@@ -23,7 +23,7 @@ def get_filters():
         city = input("Invalid input,try again: ").lower()
 
     # get user input for month (all, january, february, ... , june)
-    month = input("Please specify month (from 'january' to 'june' or type 'all'): ").lower()
+    month = input("Please specify month (from 'january' to 'june' or type 'all', note that July to December are not in our datasets): ").lower()
     while month not in ['all', 'january', 'february', 'march', 'april', 'may', 'june']:
         month = input("Invalid input,try again: ").lower()
 

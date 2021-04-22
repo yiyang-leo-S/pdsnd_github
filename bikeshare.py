@@ -53,7 +53,7 @@ def load_data(city, month, day):
 
     # convert the Start & End Time column to datetime
     df['Start Time'] = pd.to_datetime(df['Start Time'])
-    df['End Time'] = pd.to_datetime(df['End Time'])
+    df['End Time'] = pd.to_datetime(df['End Time']) # need this to calculate duration later
 
     # extract month and day of week from Start Time to create new columns
     df['month'] = df['Start Time'].dt.month

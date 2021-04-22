@@ -1,3 +1,4 @@
+#time how long the actions take each
 import time
 import pandas as pd
 import numpy as np
@@ -25,12 +26,12 @@ def get_filters():
     month = input("Please specify month (from 'january' to 'june' or type 'all'): ").lower()
     while month not in ['all', 'january', 'february', 'march', 'april', 'may', 'june']:
         month = input("Invalid input,try again: ").lower()
-        
+
     # get user input for day of week (all, monday, tuesday, ... sunday)
     day = input("Please specify day of week (or type 'all'): ").lower()
     while day not in ['all', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']:
         day = input("Invalid input,try again: ").lower()
-        
+
     print('-'*40)
     return city, month, day
 
@@ -46,24 +47,24 @@ def load_data(city, month, day):
     Returns:
         df - pandas DataFrame containing city data filtered by month and day
     """
-    
+
     # load data file into a dataframe
     df = pd.read_csv(CITY_DATA[city])
-    
+
     # convert the Start & End Time column to datetime
     df['Start Time'] = pd.to_datetime(df['Start Time'])
     df['End Time'] = pd.to_datetime(df['End Time'])
-    
+
     # extract month and day of week from Start Time to create new columns
     df['month'] = df['Start Time'].dt.month
     df['day_of_week'] = df['Start Time'].dt.day_name()
-    
+
     # filter by month if applicable
     if month != 'all':
         # use the index of the months list to get the corresponding int
         months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
         month = months.index(month) + 1
-    
+
         # filter by month to create the new dataframe
         df = df[df['month'] == month]
 
@@ -71,7 +72,7 @@ def load_data(city, month, day):
     if day != 'all':
         # filter by day of week to create the new dataframe
         df = df[df['day_of_week'] == day.title()]
-    
+
     return df
 
 
@@ -80,15 +81,15 @@ def time_stats(df):
 
     print('\nCalculating The Most Frequent Times of Travel...\n')
     start_time = time.time()
-    
+
     # display the most common month
     mon = df['month'].mode()[0]
     print(f'Most Frequent month: {mon}')
-    
+
     # display the most common day of week
     dow = df['day_of_week'].mode()[0]
     print(f'Most Frequent day of week: {dow}')
-    
+
     # display the most common start hour
         # convert the Start Time column to datetime
     df['Start Time'] = pd.to_datetime(df['Start Time'])
@@ -109,11 +110,11 @@ def station_stats(df):
     # display most commonly used start station
     start = df['Start Station'].mode()[0]
     print(f'The most commonly used start station: {start}')
-    
+
     # display most commonly used end station
     end = df['End Station'].mode()[0]
-    print(f'The most commonly used end station: {end}') 
-    
+    print(f'The most commonly used end station: {end}')
+
     # display most frequent combination of start station and end station trip
     df['routes'] = df['Start Station']+ " " + df['End Station']
     secombo = df['routes'].mode()[0]
@@ -130,15 +131,15 @@ def trip_duration_stats(df):
     start_time = time.time()
 
     df['duration'] = df['End Time'] - df['Start Time']
-    
+
     # display total travel time
     ttt = df['duration'].sum()
     print(f'Total travel time: {ttt}')
-    
+
     # display mean travel time
     mtt = df['duration'].mean()
     print(f'Mean travel time: {mtt}')
-    
+
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
@@ -157,19 +158,19 @@ def user_stats(city, df):
         # Display counts of gender
         gender = df['Gender'].value_counts()
         print(f'Counts of gender: {gender}')
-    
+
         # Display earliest, most recent, and most common year of birth
         earl = int(df['Birth Year'].min())
         mrecent = int(df['Birth Year'].max())
         mcomm = int(df['Birth Year'].mode()[0])
         print(f'The earliest year of birth: {earl}\nThe most recent year of birth: {mrecent}\nThe most common year of birth: {mcomm}')
-    
+
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
 def display_data(df):
     """
-     Display five lines of raw data if the user indicates that they want to see 
+     Display five lines of raw data if the user indicates that they want to see
      raw data. It should keep asking the user until he/she says no.
     """
     start = 0
@@ -185,7 +186,7 @@ def display_data(df):
             end_display = input("Do you wish to continue or not?: ").lower()
             if end_display == 'no':
                 break
-            
+
 def main():
     while True:
         city, month, day = get_filters()
